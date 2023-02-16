@@ -1,0 +1,5 @@
+{"users": ["id", "name", "email", "password", "time"],
+  "posts": ["post_id", "operation", "date", "car_id", "user_id", "note", "file_url", "file_name", "distance", "is_deleted"],
+  "cars": ["car_id", "user_id", "car_name", "description", "distance", "is_deleted", "number"],
+  "operations": ["operation", "user_id", "is_deleted", "period"]
+}

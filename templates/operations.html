@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{ super() }}
+{% for cat, msg in get_flashed_messages(True) %}
+  <div class="flash {{cat}}" name="message">{{ msg }}</div>
+{% endfor %}
+{% endblock %}
+{% block preworkpart %}
+<h2>Справочник по типам работ</h2>
+<hr>
+<!--<p>ID профиля: {{id}}</p>-->
+<div id="profile_div" >
+     {% if cars|length > 1 %}
+    <h3 onmousedown="change_v()" style="cursor:pointer;text-decoration:underline;">Внести новый тип работ</h3>
+    {% else %}
+    <h3>Внести новый тип работ</h3>
+    {% endif %}
+    <form action="{{ url_for('operations') }}" method="post" class="form-contact" id="form" enctype="multipart/form-data" style="overflow:hidden;text-align: center;" hidden>
+
+         <p><input type="text" title="Новый тип работ" placeholder="Новый тип работ" style="text-align:center;" name="operation" value="{{operation}}" oninput="func2.call(this)" onmouseout="defaulting2.call(this)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required></p>
+        <p><input placeholder="Регламентный период" type="number" min="1" name="period" style="text-align:center;"
+                                           value="" title="Номер" utocomplete="off"
+                                      autocorrect="off" autocapitalize="off"
+                                      spellcheck="false">
+        </p>
+<p><input type="submit" id="subbtn" form="form" value="Внести" hidden="disabled"></p>
+</form>{% if cars|length > 1 %}
+    <hr>
+    {% endif %}
+
+ {% if cars|length > 1 %}
+               <h3>Список типов работ:</h3>
+
+
+    {% endif %}
+{%- endblock preworkpart-%}
+{% block workpart %}
+
+
+
+                {% if cars|length > 1 %}
+
+   <div style="text-align:center;">
+
+
+
+    <ul style="display: table;
+  margin: auto;">
+
+  {% for c in cars %}
+        {% if c.operation != 'не имеет значения'%}
+        <li style="margin-bottom:20px">
+            <hr>
+                        <a href="#" onclick="conf('{{c.operation}}')" title="Удалить этот тип работ">Удалить этот тип работ</a>
+
+
+
+
+                    <form action="{{ url_for('update_operation') }}" method="post" class="form-contact" id="{{c.operation}}" enctype="multipart/form-data" style="overflow:hidden;text-align: center;" >
+
+    <p><input style="text-align:center;border:2px solid #F4A460;" type="text" title="Тип работ" placeholder="Тип работ" name="new_value" value="{{c.operation}}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required></p>
+       <p> <input  style="text-align:center;border:2px solid #F4A460;"  type="number" min="1" title="" placeholder="Регламентный период" name="period" value="{{c.period}}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" ></p>
+
+    <input type="hidden" name="old_value" value="{{c.operation}}">
+    <input type="hidden" name="user_id" value="{{user_id}}">
+
+        <input class="change" type="submit" form="{{c.operation}}" value="Изменить" title="Изменить">
+
+
+
+</form>
+            <hr>
+        </li>
+        {% endif %}
+  {% endfor %}
+    </ul>
+</div>
+</div>
+
+{% endif %}
+
+
+<script>
+window.onload = function () {
+  var height = document.getElementById('form').offsetHeight;
+  try {
+    var carlist = document.getElementById("carlist");
+    carlist.style.height = '' + 200 + "px";
+    document.getElementById("profile_div").style.height = '' + height + "px";  }
+
+  catch(err) {
+    //pass
+   }
+
+  }
+
+function conf(operation) {
+    var result = confirm("Вы действительно хотите удалить этот тип работ?");
+
+    if (result == true ) {
+        var http = new XMLHttpRequest();
+        var url =  "{{url_for('delete_operation')}}";
+        var params = 'user_id={{user_id}}&operation=' + operation;
+        http.open('POST', url, true);
+        http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        http.onreadystatechange = function() {//Call a function when the state changes.
+            if(http.readyState == 4 && http.status == 200) {
+            window.location.replace("{{url_for('operations')}}");
+
+    }
+}
+http.send(params);
+
+    }
+
+}
+
+function defaulting(defaul) {
+    if (this.value.trim() == "") {
+        this.value = defaul;
+        let elems = document.querySelectorAll('.change');
+            for (let i = 0; i < elems.length; i++) {
+                if (elems[i].getAttribute("form") == defaul) {
+
+                    elems[i].setAttribute("hidden", "disabled");
+
+                    elems[i].setAttribute("title", "Измененией не найдено");
+                }
+
+            }
+    }
+}
+function func(defaul) {
+    if (this.value.trim() == "") {
+        return 0;
+    }
+    if (this.value.trim() != defaul) {
+        let elems = document.querySelectorAll('.change');
+        for (let i = 0; i < elems.length; i++) {
+            if (elems[i].getAttribute("form") == defaul) {
+                elems[i].removeAttribute("hidden");
+                elems[i].setAttribute("title", "Изменить");
+            }
+
+        }
+    }
+    else {
+        let elems = document.querySelectorAll('.change');
+        for (let i = 0; i < elems.length; i++) {
+            if (elems[i].getAttribute("form") == defaul) {
+                elems[i].setAttribute("hidden", "disabled");
+                elems[i].setAttribute("title", "Изменений не найдено");
+            }
+
+        }
+
+
+    }
+}
+
+
+function func2() {
+    if (this.value.trim() == "") {
+        return 0;
+    }
+    if (this.value.trim() != "") {
+        let elem = document.querySelector('#subbtn');
+        elem.removeAttribute("hidden");
+        elem.setAttribute("title", "Внести");
+    }
+    else {
+        let elem = document.querySelector('#subbtn');
+        elem.setAttribute("hidden", "disabled");
+        elem.setAttribute("title", "Введите новый тип работ");
+
+    }
+}
+
+function defaulting2() {
+
+if (this.value.trim() == "") {
+    this.value = "";
+    let elem = document.querySelector('#subbtn');
+        elem.setAttribute("hidden", "disabled");
+        elem.setAttribute("title", "Введите новый тип работ");
+
+
+}
+
+}
+
+
+    var state = 0;
+
+
+
+
+function change_v() {
+if (state == 0) {
+    state = 1;
+    document.getElementById('form').removeAttribute("hidden");
+
+}
+else {
+state = 0;
+
+document.getElementById('form').setAttribute("hidden", "hidden");
+
+}
+
+
+}
+
+{% if cars|length == 1 %}
+change_v();
+{% endif %}
+</script>
+
+
+
+
+{%- endblock workpart-%}

@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{ super() }}
+{% for cat, msg in get_flashed_messages(True) %}
+  <div class="flash {{cat}}" name="message">{{ msg }}</div>
+{% endfor %}
+{% endblock %}
+{% block preworkpart %}
+<h2>Информация о доступных ТС</h2>
+<hr>
+<!--<p>ID профиля: {{id}}</p>-->
+<div id="profile_div" >
+    {% if cars|length > 0 %}
+    <h3 onmousedown="change_v()" style="cursor:pointer;text-decoration:underline;">Добавить новое ТС</h3>
+    {% else %}
+    <h3>Добавить новое ТС</h3>
+    {% endif %}
+<form action="{{ url_for('add_car') }}" method="post" class="form-contact"
+          id="form" enctype="multipart/form-data" style="overflow:hidden;text-align: center;" hidden="hidden">
+
+        <p><input placeholder="Название" type="text" name="car_name"
+                                           value="{{car_name}}" title="Название" required oninput="func.call(this)" onmouseout="defaulting.call(this)" style="text-align:center;">
+        </p>
+        <p><input placeholder="Пробег" title="Пробег" type="number" name="distance"
+                                         value="{{distance}}" style="text-align:center;"></p>
+        <p><input placeholder="VIN" type="text" title="VIN" name="description"
+                                      value="{{description}}" autocomplete="off"
+                                      autocorrect="off"style="text-align:center;"  autocapitalize="off"
+                                      spellcheck="false" ></p>
+        <p><input placeholder="Номер" type="text" name="number" style="text-align:center;"
+                                           value="{{number}}" title="Номер" utocomplete="off"
+                                      autocorrect="off" autocapitalize="off"
+                                      spellcheck="false">
+        </p>
+        <p><input type="submit" form="form" value="Добавить" title="Добавить" hidden="disabled" id="subbtn"></p>
+    </form>
+    {% if cars|length > 0 %}
+    <hr>
+    <h3>Список ТС:</h3>
+    {% endif %}
+
+{%- endblock preworkpart-%}
+{% block workpart %}
+
+
+
+                {% if cars|length > 0 %}
+
+   <div style="text-align:center;overflow-y:auto;">
+
+    <ul style="display: table;
+  margin: auto;">
+  {% for c in cars %}
+        <li onmousedown="name({{c.car_id}})" style="margin-bottom:20px;border: 2px solid #fff8e7;border-radius:10px;padding:4px;min-width:100px;cursor:pointer;">
+
+                    <p style="font-weight: bold;"><a
+                    href="{{ url_for('show_car', car_id=c.car_id) }}" title="{{c.car_name}}">{{c.car_name}}</a>
+            </p>
+        </li>
+
+  {% endfor %}
+    </ul>
+</div>
+    {% endif %}
+</div>
+
+
+<script>
+window.onload = function () {
+  var height = document.getElementById('form').offsetHeight;
+  try {
+    var carlist = document.getElementById("carlist");
+    carlist.style.height = '' + height + "px";
+    document.getElementById("profile_div").style.height = '' + height + "px";  }
+  catch(err) {
+    //pass
+   }
+
+  }
+
+
+
+function func() {
+    if (this.value.trim() == "") {
+        return 0;
+    }
+    if (this.value.trim() != "") {
+        let elem = document.querySelector('#subbtn');
+        elem.removeAttribute("hidden");
+        elem.setAttribute("title", "Внести");
+    }
+    else {
+        let elem = document.querySelector('#subbtn');
+        elem.setAttribute("hidden", "disabled");
+        elem.setAttribute("title", "Введите название");
+
+    }
+}
+
+function defaulting() {
+if (this.value.trim() == "") {
+    this.value = "";
+    let elem = document.querySelector('#subbtn');
+        elem.setAttribute("hidden", "disabled");
+        elem.setAttribute("title", "Введите название");
+
+
+}
+
+}
+var state = 0;
+function change_v() {
+if (state == 0) {
+    state = 1;
+    document.getElementById('form').removeAttribute("hidden");
+
+}
+else {
+state = 0;
+
+document.getElementById('form').setAttribute("hidden", "hidden");
+
+}
+
+
+}
+function name(car_id) {
+    window.location.href = {{url_for('show_car', car_id="")}} + '/' + car_id;
+}
+{% if cars|length == 0 %}
+change_v();
+{% endif %}
+</script>
+
+
+
+
+{%- endblock workpart-%}

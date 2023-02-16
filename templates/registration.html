@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block content %}
+{{ super() }}
+
+{% for cat, msg in get_flashed_messages(True) %}
+  <div class="flash {{cat}}" name="message">{{ msg }}</div>
+{% endfor %}
+{% endblock %}
+{% block preworkpart %}
+<h2 >Регистрация</h2>
+<hr>
+{%- endblock preworkpart-%}
+{% block workpart %}
+<form action="/registration" method="post" class="form-login" style="text-align:center;">
+  <p style="max-width:30%;">
+    <label hidden >Никнейм: </label>
+    <input hidden type="text" name="username" value="noname" required>
+  </p>
+
+  <p class="input">
+
+    <input oninput="func2.call(this)" onmouseout="defaulting2.call(this)" placeholder="Email"  style="text-align:center;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="email" name="email" value="{{email}}" required>
+  </p>
+
+  <p class="input">
+    <input  oninput="func2.call(this)" onmouseout="defaulting2.call(this)" placeholder="Пароль" style="text-align:center;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="password" name="password" value="{{p1}}" required>
+  </p>
+
+    <p class="input">
+
+    <input  oninput="func2.call(this)" onmouseout="defaulting2.call(this)" placeholder="Повтор пароля" style="text-align:center;"   autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="password" name="password2" value="{{p2}}" required>
+  </p>
+  <p>
+    <input type="submit" value="Зарегистрироваться" id="subbtn" title="Заполните все поля" hidden="disabled"/>
+
+  </p>
+
+</form>
+
+<script>
+  function func2() {
+
+    if ( (document.getElementsByName("email")[0].value.trim() == "") || (document.getElementsByName("password")[0].value.trim() == "") || (document.getElementsByName("password2")[0].value.trim() == "")) {
+    if ( (document.getElementsByName("email")[0].value.trim() == "") || (document.getElementsByName("password")[0].value.trim() == "") || (document.getElementsByName("password2")[0].value.trim() == "")) {
+
+
+        return 0;
+    }
+
+    if ( (document.getElementsByName("email")[0].value.trim() != "") && (document.getElementsByName("password")[0].value.trim() != "") && (document.getElementsByName("password2")[0].value.trim() != "")) {
+
+        let elem = document.querySelector('#subbtn');
+        elem.removeAttribute("hidden");
+        elem.setAttribute("title", "Зарегистрироваться");
+    }
+    else {
+        let elem = document.querySelector('#subbtn');
+        elem.setAttribute("hidden", "disabled");
+        elem.setAttribute("title", "Заполните все поля");
+
+    }
+}
+
+function defaulting2() {
+
+if ( (document.getElementsByName("email")[0].value.trim() == "") || (document.getElementsByName("password")[0].value.trim() == "") || (document.getElementsByName("password2")[0].value.trim() == "")) {
+    let elem = document.querySelector('#subbtn');
+        elem.setAttribute("hidden", "disabled");
+        elem.setAttribute("title", "Заполните все поля");
+
+
+}
+else {let elem = document.querySelector('#subbtn');
+        elem.removeAttribute("disabled");
+        elem.setAttribute("title", "Зарегистрироваться");
+
+
+}
+
+}
+
+</script>
+{%- endblock workpart -%}

@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{ super() }}
+{% for cat, msg in get_flashed_messages(True) %}
+  <div class="flash {{cat}}" name="message">{{ msg }}</div>
+{% endfor %}
+{% endblock %}
+
+{% block preworkpart %}
+
+{% if posts|length > 0 %}
+<h2>Список выполненных работ</h2>
+<hr>
+{% else %}
+<h3>Актуальных записей нет.   <a href="{{url_for('index')}}" title="Обновить страницу">Обновите страницу</a>, <a href="{{url_for('archive')}}" title="Посмотреть архив">посмотрите архив</a> или <a href="{{url_for('add_post')}}" title="Добавить запись">добавьте запись</a></h3>
+{% endif %}
+{% if posts|length > 0 %}
+<form action="{{ url_for('index') }}" method="post" class="form-contact" id="form" enctype="multipart/form-data">
+<h4 style="padding: 10px;margin-bottom: 10px;">Показывать записи для
+
+    <select name="for" style="margin-left:5px;margin-right:5px;">
+
+     {% for i in carlist %}
+        <option>{{i}}</option>
+        {% endfor %}
+</select>, <br><br>сначала
+<select name="date" style="margin-left:5px;margin-right:5px;">
+    {% for i in date %}
+        <option>{{i}}</option>
+        {% endfor %}
+</select>, при этом содержащие
+
+<p style="display: flex;
+  justify-content: center;
+  align-items: center;border-radius:10px;">
+    <select name="type" style="margin-left:5px;margin-right:5px;">
+        {% for t in type %}
+        <option>{{t}}</option>
+        {% endfor %}
+</select> работ:
+
+{% if   operations|length > 3 %}
+                        <select name="operation" multiple required style="margin-left:5px;" size="3">
+                                    {% for o in  range(operations|length)%}
+                                                {% if operations[o] in operations_selected %}
+                                                <option selected title="{{operations[o]}}">{{operations[o]}}</option>
+                                                {% else %}
+                                              <option title="{{operations[o]}}">{{operations[o]}}</option>
+                                                {% endif %}
+                                    {% endfor %}
+                                    </select>
+{% else %}
+                          <select name="operation" multiple size="{{operations|length}}" required style="margin-left:5px;">
+                                    {% for o in  range(operations|length)%}
+                                                {% if operations[o] in operations_selected %}
+                                                <option selected title="{{operations[o]}}">{{operations[o]}}</option>
+                                                {% else %}
+                                              <option title="{{operations[o]}}">{{operations[o]}}</option>
+                                                {% endif %}
+                                    {% endfor %}
+                                    </select>
+{% endif %}
+</p>
+<p><input type="submit" form="form" value="Применить"></p>
+    <hr>
+    <br>
+</h4>
+</form>
+
+{% endif %}
+{%- endblock preworkpart-%}
+{% if posts|length > 0 %}
+{% block workpart %}
+
+<ul class="list-posts" style="list-style-type: none;margin-bottom: 10px;">
+    {% for p in posts %}
+        <li style="border: 2px solid #fff8e7; border-radius: 10px;">
+            <label><p class="annonce" style="margin-left: 10px;text-align: center;color:#F4A460;"><a href="{{ url_for('show_post', id_post=p.post_id) }}" style="font-weight: bold;">Дополнить</a> <label style="color:#fff8e7;"> или </label> <a href="#" onclick="conf({{p.post_id}})" style="font-weight: bold;">удалить</a><hr></p></label>
+            <p class="annonce" style="margin-left: 10px;"><label style="font-weight:bold;">ТС:</label> <a href="{{ url_for('show_car', car_id=p.car_id) }}">{{p.car_name }}</a></p>
+            <p class="annonce" style="margin-left: 10px;overflow-x:auto;"><label style="font-weight:bold;">Выполненные работы:</label> {{p.operation }}</p>
+            <p class="annonce" style="margin-left: 10px;"><label style="font-weight:bold;">Выполнено: </label> {{p.date.split()[0]}} в {{p.date.split()[1]}}</p>
+            {% if p.distance > 0 %}
+            <p class="annonce" style="margin-left: 10px;"><label style="font-weight:bold;">Пробег на момент работы:</label> {{p.distance}}</p>
+            {% else %}
+            <p class="annonce" style="margin-left: 10px;"><label style="font-weight:bold;">Пробег на момент работы:</label> не указан</p>
+            {% endif %}{% if p.note|length > 0 %}
+            <p class="annonce" style="margin-left: 10px;color:#F4A460;"><label style="font-weight:bold;">Примечание:</label> <label style="color: #fff">{{p.note }}</label></p>
+            {% endif %}
+
+            {% if p.file_number > 0 %}
+            <hr>
+        <p class="annonce" style="margin-left: 10px;">Фотографии:</p>
+
+            <p><ul style="display: flex; text-align: center;">
+
+                {% for file in p.files %}
+                <li  style="display: inline;margin-right: 15px;margin-left:10px;float:left;">
+                    <div class="container">
+                    <a href="{{file.file_url}}"  title="Скачать файл" download="">
+                        <img src="{{file.file_url}}" alt="file.file_name" class="preview">
+                    </a>
+                        </div>
+                </h4>
+                </li> <!-- {{file.file_name}}-->
+            {% endfor %}
+                </ul>
+            </p>
+            {% endif %}
+        </li>
+        <br>
+    {% endfor %}
+</ul>
+<script>
+    function conf(id) {
+    var result = confirm("Вы действительно хотите удалить эту запись?");
+
+    if (result == true ) {
+        var http = new XMLHttpRequest();
+        var url =  "{{url_for('delete_post')}}";
+        var params = 'post_id=' + id + '&user_id={{user_id}}';
+        http.open('POST', url, true);
+        http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        http.onreadystatechange = function() {//Call a function when the state changes.
+            if(http.readyState == 4 && http.status == 200) {
+            window.location.replace("{{url_for('index')}}");
+
+    }
+}
+http.send(params);
+
+    }
+
+}
+
+
+</script>
+{%- endblock workpart-%}
+
+
+{% endif %}

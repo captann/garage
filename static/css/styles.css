@@ -1,0 +1,321 @@
+body{
+    background-color: #333336;
+    color: #fff8e7;
+    font-family: arial;
+    overflow-x: hidden;
+    overflow-y: auto;
+    opacity:0.85;
+
+
+}
+hr {
+color: #fff8e7;
+}
+input {
+background: #fff8e7;
+}
+
+.flash {
+padding: 10px;
+text-align: center;}
+
+
+.flash.ok {
+    border: 1px solid #21DB56;
+    background: #fffdd0;
+    color: #ed9121;
+}
+
+.flash.success {
+    border: 1px solid #21DB56;
+    background: #AEFFC5;
+    color: green;
+}
+.flash.error {
+    border: 1px solid #FF4343;
+    background: #EE9C9C;
+    color: red;
+}
+a {
+    text-decoration: none;
+    color: #F4A460;
+}
+
+
+
+    #menu, #menu li {
+
+        margin: 0; /* убрать внутренние отступы */
+
+        padding: 0; /* убрать внешние отступы */
+
+    }
+
+
+    .menu {
+
+        display: flex;
+        overflow-x: hidden;
+        flex-flow: row wrap; /* Shorthand for flex-direction: row and flex-wrap: wrap */
+        font-weight:  bold;
+        background: #333336; /* цвет фона навигационной панели */
+
+    }
+    @media screen and (min-width: 1301px) {
+
+    .menu li{
+
+        display:inline; /* расположить пункты горизонтально */
+        flex-basis: 20%;
+        text-align: center; /* текст горизонтально по центру */
+
+    }
+
+    .menu a {
+
+        display: block; /* ссылка растягивается на весь пункт li */
+
+        padding: 5px 15px; /* задаем внутренние отступы */
+
+        color: #fff8e7; /* цвет текста */
+
+        text-decoration: none; /* убрать нижнее подчёркивание у ссылок */
+
+
+    }
+    }
+
+
+
+
+    a:hover {
+
+        background: #222226; /* фон пунктов при наведении */
+        color: #fff8e7;
+
+    }
+
+#title_post {
+    color: #F4A460;
+}
+
+.dropzone {
+zoom: 0.7;
+}
+
+@media screen and (max-width: 1300px) {
+
+#maindiv {
+    margin-left: 0%;
+    margin-right: 0%;
+    width: 100%;
+
+    }
+
+.menu li{
+
+        display:grid; /* расположить пункты вертикально */
+        flex-basis: 100%;
+        text-align: center; /* текст горизонтально по центру */
+
+    }
+
+    .menu a {
+
+        display: list-item; /* ссылка растягивается на весь пункт li */
+
+        padding: 5px 15px; /* задаем внутренние отступы */
+
+        color: #fff8e7; /* цвет текста */
+
+        text-decoration: none; /* убрать нижнее подчёркивание у ссылок */
+
+    }
+
+}
+@media screen and (min-width: 1301px) {
+
+#maindiv {
+    margin-left: 20%;
+    padding: 10px 10px 10px 10px;
+    width: 60%;
+}}
+#workpart {
+    overflow-y:scroll;
+    position:relative;
+    max-height: 75vh;
+    padding: 10px 10px 10px 10px;
+}
+#preworkpart {
+    text-align: center;
+}
+#workpart::-webkit-scrollbar {
+  width: 0;
+}
+
+input[type=submit] {
+    padding:5px 15px;
+    background: #AEFFC5;
+    color: green;
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+input[type=submit][disabled=disabled] {
+padding:5px 15px;
+    background: #a0a0a4;
+    color: #49423d;
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: default;
+
+}
+textarea {
+    padding:5px;
+    border:2px solid #ccc;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-family:Arial, serif;
+    font-size: 16px;
+}
+
+textarea:focus {
+    border-color:#333;
+}
+
+input[type=text] {
+    padding:5px;
+    border:2px solid #F4A460;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-family:Arial, serif;
+    font-size: 16px;
+}
+
+input[type=number] {
+    padding:5px;
+    border:2px solid #F4A460;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-family:Arial, serif;
+    font-size: 16px;
+}
+
+input[type=text]:focus {
+    border-color:#F4A460;
+}
+
+input[type=number]:focus {
+    border-color:#F4A460;
+}
+
+input[type=password] {
+    padding:5px;
+    border:2px solid #F4A460;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-family:Arial, serif;
+    font-size: 16px;
+}
+
+input[type=password]:focus {
+    border-color:#F4A460;
+}
+
+input[type=file] {
+    display: none;
+
+}
+
+.custom-file-upload {
+    padding:5px 15px;
+    background: #fffdd0;
+    color: #ed9121;
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+select {
+    background: #333336;
+    font-family:Arial, serif;
+    font-size: 16px;
+    color: #fff8e7;
+    font-weight: bold;
+}
+
+#filelabel:hover {
+    background: #222226; /* фон пунктов при наведении */
+        color: #fff8e7;
+    cursor: pointer;
+
+}
+#filelabel {
+color: #F4A460;
+}
+
+li {
+    list-style-type: none; /* Убираем маркеры */
+   }
+   ul {
+    margin-left: 0; /* Отступ слева в браузере IE и Opera */
+    padding-left: 0; /* Отступ слева в браузере Firefox, Safari, Chrome */
+   }
+
+.preview {
+
+/*filter: blur(5px);
+   -webkit-filter: blur(5px);
+   -moz-filter: blur(5px);
+   -o-filter: blur(5px);
+   -ms-filter: blur(5px); */
+
+   margin:-1px;
+   padding:1px;
+   width:70px;
+   height:50px;
+   border-radius:5px;
+}
+
+.container a {
+
+
+color: #fff8e7; /* цвет текста */
+background-color:#333336;
+text-decoration: none; /* убрать нижнее подчёркивание у ссылок */}
+
+
+input[type=email] {
+    padding:5px;
+    border:2px solid #F4A460;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-family:Arial, serif;
+    font-size: 16px;
+}
+/* для картинок  в add_post*/
+ul.hr {
+    margin: 0; /* Обнуляем значение отступов */
+    padding: 4px; /* Значение полей */
+   }
+   ul.hr li {
+    display: inline; /* Отображать как строчный элемент */
+    margin-right: 5px; /* Отступ слева */
+    padding: 3px; /* Поля вокруг текста */
+   }
+
+input[required] {
+    border: 1px solid #FF4343;
+
+}
+
+input {
+    border: 2px solid #F4A460;
+}

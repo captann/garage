@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    {% if is_authed %}
+
+    <link type="text/css" href="{{ url_for('static', filename='css/styles_authed.css') }}" rel="stylesheet"/>
+    {% else %}
+    <link type="text/css" href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet"/>
+    {% endif %}
+    <link type="text/css" href="{{ url_for('static', filename='css/scrollbar.css') }}" rel="stylesheet"/>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
+    <!-- Если favicon лежит в корне сайта. РЕКОМЕНДУЕМЫЙ вариант. -->
+<!-- Если favicon лежит в папке Выше. НЕ РЕКОМЕНДУЕМЫЙ вариант. -->
+<link rel="icon" href="{{ url_for('static', filename='icons/favicon.ico') }}" type="image/x-icon">
+<link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.css">
+    {% block title -%}
+      <meta charset="UTF-8">
+      {% if title %}
+          <title>Гаражный учет | {{ title }}</title>
+      {% else %}
+          <title>Гаражный учет</title>
+      {% endif %}
+    {% endblock %}
+</head>
+<body>
+
+<div>
+</div>
+
+
+
+
+
+    <div id="maindiv">
+        {% block content %}
+
+  {%- block mainmenu -%}
+ {% if is_authed %}
+        <div style="width:100%;text-align:center; ">
+        <a  style="border-bottom: 1px solid #fff8e7;border-radius:10px;padding:5px;" href="{{url_for('logout')}}">Выйти из профиля</a>
+            </div>
+        {% endif %}
+        {% if is_authed %}
+   <h3  id="showmenustate" onmousedown="change_v1()" style="cursor:pointer;text-decoration:underline;flex-basis: 100%;text-align:center;" >Показать меню</h3>
+  <ul class="menu" id="menuul" style="display:none;">
+      {% for m in menu %}
+            <li style="flex-basis: {{flb}}%" class="menu_li"><a class="menu" href="{{ m.url }}">{{m.title}}</a></li>
+      {% endfor %}
+
+  </ul>
+        {% else %}<ul class="menu" >
+      {% for m in menu %}
+            <li style="flex-basis: {{flb}}%" class="menu_li"><a class="menu" href="{{ m.url }}">{{m.title}}</a></li>
+      {% endfor %}
+
+  </ul>
+        {% endif %}
+
+    <hr>
+
+<script  src="{{ url_for('static', filename='js/main.js') }}"></script>
+        <script  src="{{ url_for('static', filename='js/for_forms.js') }}"></script>
+
+  {%- endblock mainmenu-%}
+{% endblock %}
+        <div id="preworkpart">
+
+            {% block preworkpart %}
+
+            {%- endblock preworkpart-%}
+        </div>
+
+
+        <div id="workpart">
+        {% block workpart %}
+        {%- endblock workpart-%}
+            </div>
+    </div>
+
+
+<script>
+    setTimeout(function(){
+    let elems = document.getElementsByName('message');
+    for (let i = 0; i < elems.length; i++) {
+        elems[i].style.display = 'none';
+    }
+
+}, 3000)
+
+
+
+{% if is_authed %}
+var state1 = 0;
+function change_v1() {
+if (state1 == 0) {
+    state1 = 1;
+   document.getElementById('menuul').style.display = "flex";
+   document.getElementById('showmenustate').innerHTML = "Скрыть меню";
+
+}
+else {
+state1 = 0;
+
+document.getElementById('menuul').style.display = "none";
+   document.getElementById('showmenustate').innerHTML = "Показать меню";
+
+
+}
+
+
+}
+
+   if (window.innerWidth > 1300) {
+
+   change_v1();
+   document.getElementById('showmenustate').style.display = "none";
+
+
+}
+
+
+{% endif %}
+
+
+if (window.innerWidth < 981) {
+    document.body.style.zoom= 2.0;
+}
+</script>
+
+
+</body>
+
+</html>

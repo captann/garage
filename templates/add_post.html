@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{ super() }}
+
+{% for cat, msg in get_flashed_messages(True) %}
+  <div class="flash {{cat}}" name="message">{{ msg }}</div>
+{% endfor %}
+{% endblock %}
+
+{% block preworkpart %}
+
+{% if operations|length > 1 and cars|length > 0 %}
+        <h2>Добавление записи</h2>
+        <hr>
+  {% elif operations|length <= 1 and cars|length <= 0 %}
+    <h3>Нет ни одного типа работ. <a href={{url_for('operations')}} title="Добавить тип работ">Добавьте новый тип работ</a> </h3>
+  {% elif operations|length <= 1 and cars|length > 0 %}
+    <h3>Нет ни одного типа работ. <a href={{url_for('operations')}} title="Добавить тип работ">Добавьте новый тип работ</a> </h3>
+  {% else %}
+    <h3>Нет ни одного ТС. <a href={{url_for('profile')}} title="Добавить ЬС">Добавьте транспортное средство</a> </h3>
+  {% endif %}
+{% endblock preworkpart %}
+
+{% block workpart %}
+    {% if operations|length > 1 %}
+
+
+
+            {% if cars|length > 0 %}
+                  <form action="{{ url_for('add_post') }}" method="post" class="form-contact" id="form" enctype="multipart/form-data" style="text-align: center;">
+
+                      <p><label style="font-weight:bold;">Транспортное средство: </label>
+                        <select name="car" class="minimenu">
+                        {% for c in cars %}
+                            <option  >{{c}} </option>
+                        {% endfor %}
+                        </select>
+
+                        </p>
+                      <h4><label>Тип работ:</label></h4>
+                      <p>
+                        {% if   operations|length > 3 %}
+                        <select name="operation" multiple required size="3">
+                                    {% for o in  range(operations|length)%}
+                                          {% if operations[o] != 'не имеет значения'%}
+                                                {% if o == 1 %}
+                                                <option selected>{{operations[o]}}</option>
+                                                {% else %}
+                                              <option >{{operations[o]}}</option>
+                                                {% endif %}
+                                          {% endif %}
+                                    {% endfor %}
+                                    </select>
+                          {% else %}
+                          <select name="operation" multiple size="{{operations|length - 1}}" required>
+                                    {% for o in  range(operations|length)%}
+                                          {% if operations[o] != 'не имеет значения'%}
+                                                {% if o == 1 %}
+                                                <option selected>{{operations[o]}}</option>
+                                                {% else %}
+                                              <option >{{operations[o]}}</option>
+                                                {% endif %}
+                                          {% endif %}
+                                    {% endfor %}
+                                    </select>
+                          {% endif %}
+                      </p>
+                       <a href={{url_for('operations')}} title="Добавить тип работы">Добавить тип работ</a>
+
+
+                        <p ><input onmouseout="cbx();" id="inpv" style="text-align:center;" type="number" min="0" placeholder="Пробег на момент ТО" name="distance" value="{{distance}}" ></p>
+
+                      <p ><input style="text-align:center;" placeholder="Примечание" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" name="note" value="{{note}}" ></p></p>
+                      <p id="cbx" hidden style="cursor:pointer;" onmousedown="cbx3()"><input id="cbxi" type="checkbox" name="update_distance" form="form">Заменить пробег <br> на указанный</p>
+
+
+                    <input  type="file" id="file" name="file" multiple form="form" >
+                    <label hidden for="file"  id="filelabel">Добавить фото <br>(для выбора нескольких фото зажмите CTRL)<br>(не более 3 и не более 100 МБ):</label><h4 id="filelist"></h4> <div id="preview"></div></p>
+
+                    <p><input type="submit" form="form" value="Добавить"></p>
+
+
+                    <input id="file-upload" type="file" accept="{{accept}}"/>
+                      </form>
+                    <script src="{{ url_for('static', filename='js/files.js') }}"></script>
+
+            {% endif %}
+
+    {% endif %}
+<script>
+
+var max_length = {{operations|length - 1}};
+function cbx3() {
+    var v = document.getElementById("cbxi").checked;
+    document.getElementById("cbxi").checked = !v;
+}
+
+
+function cbx() {
+    var cbx2 = document.getElementById("cbx");
+    var inpv = document.getElementById("inpv")
+    if (inpv.value != "") {
+            cbx2.removeAttribute("hidden");
+    } else {
+        cbx2.checked = "no";
+        cbx2.setAttribute("hidden", "hidden");
+
+    }
+}
+
+
+</script>
+
+{%- endblock workpart-%}
+

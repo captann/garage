@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    {% if is_authed %}
+
+    <link type="text/css" href="{{ url_for('static', filename='css/styles_authed.css') }}" rel="stylesheet"/>
+    {% else %}
+    <link type="text/css" href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet"/>
+    {% endif %}
+    <link type="text/css" href="{{ url_for('static', filename='css/scrollbar.css') }}" rel="stylesheet"/>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
+    <!-- Если favicon лежит в корне сайта. РЕКОМЕНДУЕМЫЙ вариант. -->
+<!-- Если favicon лежит в папке Выше. НЕ РЕКОМЕНДУЕМЫЙ вариант. -->
+<link rel="icon" href="{{ url_for('static', filename='icons/favicon.ico') }}" type="image/x-icon">
+<link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.css">
+    {% block title -%}
+      <meta charset="UTF-8">
+      {% if title %}
+          <title>Гаражный учет | {{ title }}</title>
+      {% else %}
+          <title>Гаражный учет</title>
+      {% endif %}
+    {% endblock %}
+</head>
+<body>
+    <div id="maindiv">
+        {% block content %}
+  {%- block mainmenu -%}
+  <ul class="menu" >
+
+
+  </ul>
+    <hr>
+
+  {%- endblock mainmenu-%}
+{% endblock %}
+        <div id="preworkpart">
+
+        </div>
+        <div id="workpart">
+
+        <p>База данных обновляется. Попробуйте <a href="{{url}}">обновить страницу</a> </p>
+
+            </div>
+    </div>
+
+
+</body>
+<script>
+
+</script>
+</html>

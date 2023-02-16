@@ -1,0 +1,14 @@
+[
+  {"title":  "Новая запись",
+  "url":  "/add_post",
+   "id": 1
+  },
+  {"title":  "Справочник работ",
+  "url":  "/operations",
+   "id": 2
+  },
+  {"title":  "ТС",
+  "url":  "/profile",
+   "id": 3
+  }
+]

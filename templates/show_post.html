@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{ super() }}
+
+{% for cat, msg in get_flashed_messages(True) %}
+  <div class="flash {{cat}}" name="message">{{ msg }}</div>
+{% endfor %}
+{% endblock %}
+{% block preworkpart %}
+<h2>Редактирование записи</h2>
+<hr>
+{%- endblock preworkpart-%}
+{% block workpart %}
+{% if operations|length > 0 %}
+
+{% if cars|length > 0 %}
+<form action="{{ url_for('update_post')}}" method="post" class="form-contact" id="form" enctype="multipart/form-data" style="text-align: center;">
+
+
+  <!--<p hidden><label>Время сдачи: </label><input type="date" name="date" required></p> -->
+    {% if cars|length > 0 %}
+  <p style="font-weight:bold;">Транспортное средство:
+    <select name="car_name">
+    {% for c in cars %}
+      <option>{{c.car_name}}</option>
+    {% endfor %}
+    </select>
+    </p>
+
+  <p style="display: flex;
+  justify-content: center;
+  align-items: center;border-radius:10px;"><h4>Тип работ: </h4>
+
+    {% if   operations|length > 3 %}
+                        <select name="operation" multiple required size="3">
+                                    {% for o in  range(operations|length)%}
+                                          {% if operations[o] != 'не имеет значения'%}
+                                                {% if operations[o] in operations_selected %}
+                                                <option selected>{{operations[o]}}</option>
+                                                {% else %}
+                                              <option >{{operations[o]}}</option>
+                                                {% endif %}
+                                          {% endif %}
+                                    {% endfor %}
+                                    </select>
+                          {% else %}
+                          <select name="operation" multiple size="{{operations|length}}" required>
+                                    {% for o in  range(operations|length)%}
+                                          {% if operations[o] != 'не имеет значения'%}
+                                                {% if operations[o] in operations_selected %}
+                                                <option selected>{{operations[o]}}</option>
+                                                {% else %}
+                                              <option >{{operations[o]}}</option>
+                                                {% endif %}
+                                          {% endif %}
+                                    {% endfor %}
+                                    </select>
+                          {% endif %}
+
+    </p>
+  <a href={{url_for('operations')}} title="Добавить тип работы">Добавить тип работ</a>
+
+                <p class="annonce" ><h4 style="font-weight: bold;">Пробег: </h4><input type="number" name="distance" style="text-align: center" value="{{distance}}"></p>
+  <p ><h4 style="font-weight: bold;">Примечаение: </h4><input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" name="note" value="{{note}}" ></p></p>
+          <p><input   type="submit" form="form" value="Сохранить"></p>
+
+  </form>
+<script src="{{ url_for('static', filename='js/files.js') }}"></script>
+    {% else %}
+      <p><label>Транспортных средств нет. <a href={{url_for('profile')}} title="Добавить ТС">Добавьте транспортное средство</a> </label></p>
+  {% endif %}
+
+
+
+
+
+
+
+
+
+{% else %}
+
+<h3><p><label>Транспортных средств нет. <a href={{url_for('profile')}} title="Добавить ТС">Добавьте ТС</a> </label></p></h3>
+
+{% endif %}
+
+{% else %}
+      <p><label>Нет ни одного типа работ. <a href={{url_for('operations')}} title="Добавить тип работ">Добавьте новый тип работ</a> </label></p>
+{% endif %}
+<script>
+window.onload = function() {
+ var div = document.createElement("div");
+ div.innerHTML = '<input name="post_id" type="hidden" value="{{id}}"/>';
+ document.getElementById("form").appendChild(div);
+
+}
+</script>
+{%- endblock workpart-%}

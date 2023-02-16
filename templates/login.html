@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block content %}
+{{ super() }}
+
+{% for cat, msg in get_flashed_messages(True) %}
+  <div class="flash {{cat}}" name="message">{{ msg }}</div>
+{% endfor %}
+{% endblock %}
+{% block preworkpart %}
+<h2 >Авторизация</h2>
+{%- endblock preworkpart-%}
+{% block workpart %}
+<form action="" method="post" class="form-login" style="text-align:center;">
+  <p>
+    {% if autologin == '//' %}
+    <input oninput="func2.call(this)" onmouseout="defaulting2.call(this)" placeholder="Email" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" name="username" value="{{username}}" style="text-align:center;" required>
+
+    {% else %}
+    <input oninput="func2.call(this)" onmouseout="defaulting2.call(this)" placeholder="Email" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" name="username" style="text-align:center;" value="autologin@garagelist.ru" required>
+
+
+    {% endif %}
+  </p>
+
+  <p>
+    {% if autologin == '//' %}
+    <input oninput="func2.call(this)" onmouseout="defaulting2.call(this)" placeholder="Пароль" style="text-align:center;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="password" name="password" value="{{password}}" required>
+    {% else %}
+        <input placeholder="Пароль" style="text-align:center;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="password" name="password" value="12345678" required>
+    {% endif %}
+  </p>
+  <p id="cbx"  style="cursor:pointer;" onmousedown="cbx3()" ><input id="cbxi" type="checkbox" name="remainme"> Запомнить меня</p>
+  <p>
+    <input type="submit" id="subbtn" value="Войти"  hidden="disabled"/>
+
+  </p>
+
+  <hr>
+  <a href="{{ url_for('registration') }}">Регистрация</a>
+
+</form>
+
+<script>
+  {{autologin}}window.onload = function(){
+    {{autologin}} document.getElementsByName("password")[0].setAttribute("readonly", "true");
+    {{autologin}} document.getElementsByName("username")[0].setAttribute("readonly", "true");
+    {{autologin}}var button = document.getElementById('subbtn');
+
+    {{autologin}} button.form.submit();
+{{autologin}}}
+
+
+  function func2() {
+
+    if ( (document.getElementsByName("username")[0].value.trim() == "") || (document.getElementsByName("password")[0].value.trim() == "") ) {
+
+
+        return 0;
+    }
+
+    if ( (document.getElementsByName("username")[0].value.trim() != "") && (document.getElementsByName("password")[0].value.trim() != "") ) {
+
+        let elem = document.querySelector('#subbtn');
+        elem.removeAttribute("hidden");
+        elem.setAttribute("title", "Войти");
+    }
+    else {
+        let elem = document.querySelector('#subbtn');
+        elem.setAttribute("hidden", "disabled");
+        elem.setAttribute("title", "Заполните все поля");
+
+    }
+}
+
+function defaulting2() {
+
+if ( (document.getElementsByName("username")[0].value.trim() == "") || (document.getElementsByName("password")[0].value.trim() == "")) {
+    let elem = document.querySelector('#subbtn');
+        elem.setAttribute("hidden", "disabled");
+        elem.setAttribute("title", "Заполните все поля");
+
+
+}
+else {let elem = document.querySelector('#subbtn');
+        elem.removeAttribute("hidden");
+        elem.setAttribute("title", "Войти");
+
+
+}
+
+}
+
+function cbx3() {
+    var v = document.getElementById("cbxi").checked;
+    document.getElementById("cbxi").checked = !v;
+}
+
+
+</script>
+
+{%- endblock workpart-%}
