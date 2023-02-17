@@ -49,6 +49,18 @@ def find_summ(x):
         time = (y + m + d) * 24 * 60
     return time
 
+def no_sleep():
+    from fake_useragent import UserAgent
+    import requests
+    while True:
+        offset = dt.timezone(dt.timedelta(hours=3))
+        if int(datetime.now(offset).hour) in range(7, 23):
+            ua = UserAgent()
+            header = {'User-Agent': str(ua.random)}
+            r = requests.get(URL + 'connection', headers=header)
+        time.sleep(870)
+
+        
 def sort_by_date(mas, reverse):
     res = []
     mas = [[find_summ(mas[i]['date']), mas[i]] for i in range(len(mas))]
@@ -929,4 +941,6 @@ def conncetion():
 if __name__ == '__main__':
     t1 = Thread(target=update_time)
     t1.start()
+    t2 = Thread(target=no_sleep)
+    t2.start()
     app.run(host='0.0.0.0')
