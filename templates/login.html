@@ -41,13 +41,14 @@
 </form>
 
 <script>
-  {{autologin}}window.onload = function(){
-    {{autologin}} document.getElementsByName("password")[0].setAttribute("readonly", "true");
-    {{autologin}} document.getElementsByName("username")[0].setAttribute("readonly", "true");
-    {{autologin}}var button = document.getElementById('subbtn');
-
-    {{autologin}} button.form.submit();
-{{autologin}}}
+{% if autologin == "" %}
+  window.onload = function(){
+  document.getElementsByName("password")[0].setAttribute("readonly", "true");
+  document.getElementsByName("username")[0].setAttribute("readonly", "true");
+  var button = document.getElementById('subbtn');
+  button.form.submit();
+}
+{% endif %}
 
 
   function func2() {
