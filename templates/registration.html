@@ -1,16 +1,61 @@
-{% extends 'base.html' %}
-{% block content %}
-{{ super() }}
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
 
-{% for cat, msg in get_flashed_messages(True) %}
-  <div class="flash {{cat}}" name="message">{{ msg }}</div>
-{% endfor %}
-{% endblock %}
-{% block preworkpart %}
+<head>
+
+    <link type="text/css" href="/static/css/styles.css" rel="stylesheet"/>
+
+    <link type="text/css" href="/static/css/scrollbar.css" rel="stylesheet"/>
+    <link rel="shortcut icon" href="/static/icons/favicon.ico">
+    <!-- Если favicon лежит в корне сайта. РЕКОМЕНДУЕМЫЙ вариант. -->
+<!-- Если favicon лежит в папке Выше. НЕ РЕКОМЕНДУЕМЫЙ вариант. -->
+<link rel="icon" href="/static/icons/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="/static/icons/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.css">
+    <meta charset="UTF-8">
+
+          <title>Гаражный учет | Регистрация</title>
+
+
+</head>
+<body>
+
+<div>
+</div>
+
+
+
+
+
+    <div id="maindiv">
+
+
+        <ul class="menu" >
+
+            <li style="flex-basis: 50%" class="menu_li"><a class="menu" href="/login">Авторизация</a></li>
+
+            <li style="flex-basis: 50%" class="menu_li"><a class="menu" href="/registration">Регистрация</a></li>
+
+
+  </ul>
+
+
+    <hr>
+
+<script  src="/static/js/main.js"></script>
+        <script  src="/static/js/for_forms.js"></script>
+
+
+
+        <div id="preworkpart">
+
+
 <h2 >Регистрация</h2>
-<hr>
-{%- endblock preworkpart-%}
-{% block workpart %}
+<hr></div>
+
+
+        <div id="workpart">
+
 <form action="/registration" method="post" class="form-login" style="text-align:center;">
   <p style="max-width:30%;">
     <label hidden >Никнейм: </label>
@@ -19,24 +64,37 @@
 
   <p class="input">
 
-    <input oninput="func2.call(this)" onmouseout="defaulting2.call(this)" placeholder="Email"  style="text-align:center;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="email" name="email" value="{{email}}" required>
+    <input oninput="func2.call(this)" onmouseout="defaulting2.call(this)" placeholder="Email"  style="text-align:center;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="email" name="email" value="" required>
   </p>
 
   <p class="input">
-    <input  oninput="func2.call(this)" onmouseout="defaulting2.call(this)" placeholder="Пароль" style="text-align:center;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="password" name="password" value="{{p1}}" required>
+    <input  oninput="func2.call(this)" onmouseout="defaulting2.call(this)" placeholder="Пароль" style="text-align:center;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="password" name="password" value="" required>
   </p>
 
     <p class="input">
 
-    <input  oninput="func2.call(this)" onmouseout="defaulting2.call(this)" placeholder="Повтор пароля" style="text-align:center;"   autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="password" name="password2" value="{{p2}}" required>
+    <input  oninput="func2.call(this)" onmouseout="defaulting2.call(this)" placeholder="Повтор пароля" style="text-align:center;"   autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="password" name="password2" value="" required>
   </p>
   <p>
     <input type="submit" value="Зарегистрироваться" id="subbtn" title="Заполните все поля" hidden="disabled"/>
 
   </p>
 
-</form>
+</form></div>
 
+
+<script>
+    setTimeout(function(){
+    let elems = document.getElementsByName('message');
+    for (let i = 0; i < elems.length; i++) {
+        elems[i].style.display = 'none';
+    }
+
+}, 3000)
+if (window.innerWidth < 981) {
+    document.body.style.zoom= 2.0;
+}
+</script>
 <script>
   function func2() {
 
@@ -79,4 +137,9 @@ else {let elem = document.querySelector('#subbtn');
 }
 
 </script>
-{%- endblock workpart -%}
+
+
+
+</body>
+
+</html>
